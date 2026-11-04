@@ -61,3 +61,8 @@ def consultar_gemini(pregunta):
         model=MODELO,
         contents=prompt,
     )
+
+    if not respuesta.text:
+        raise RuntimeError("Gemini no devolvió una respuesta de texto")
+
+    return respuesta.text.strip()
