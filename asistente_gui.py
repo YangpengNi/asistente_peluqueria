@@ -74,3 +74,7 @@ def escribir_chat(autor, mensaje, etiqueta):
     historial.insert(tk.END, f"{mensaje}\n\n")
     historial.see(tk.END)
     historial.config(state="disabled")
+
+##Recibir la pregunta
+def enviar_pregunta(event=None):
+    pregunta = entrada.get().strip()
