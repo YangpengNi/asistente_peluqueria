@@ -21,3 +21,11 @@ MODELO = "gemini-3.8-flash"
 ##Creamos el cliente de Gemini
 cliente = genai.Client(api_key=API_KEY) if API_KEY else None
 
+##Lectura del servicio que ofrecemos en nuestra peluquería
+def leer_servicios():
+    ruta_servicios = CARPETA_PROYECTO / "servicios.txt"
+
+    if not ruta_servicios.exists():
+        raise FileNotFoundError("No se encontró el archivo servicios.txt")
+
+    return ruta_servicios.read_text(encoding="utf-8")
