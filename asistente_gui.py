@@ -29,3 +29,30 @@ def leer_servicios():
         raise FileNotFoundError("No se encontró el archivo servicios.txt")
 
     return ruta_servicios.read_text(encoding="utf-8")
+
+##Consulta a Gemini
+def consultar_gemini(pregunta):
+    if cliente is None:
+        raise RuntimeError(
+            "No se encontró GEMINI_API_KEY en el archivo .env"
+        )
+
+    servicios = leer_servicios()
+
+    ##Construcción de prompt
+
+    prompt = f"""
+    Eres el asistente virtual de una peluquería.
+
+    REGLAS:
+    - Responde únicamente con la información incluida en el contexto.
+    - No inventes servicios, precios ni horarios.
+    - Si no conoces la respuesta, indícalo claramente.
+    - Responde en español.
+
+    CONTEXTO:
+    {servicios}
+
+    PREGUNTA:
+    {pregunta}
+    """
