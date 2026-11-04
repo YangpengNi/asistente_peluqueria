@@ -66,3 +66,11 @@ def consultar_gemini(pregunta):
         raise RuntimeError("Gemini no devolvió una respuesta de texto")
 
     return respuesta.text.strip()
+
+##Escritura de mensajes en el chat
+def escribir_chat(autor, mensaje, etiqueta):
+    historial.config(state="normal")
+    historial.insert(tk.END, f"{autor}: ", etiqueta)
+    historial.insert(tk.END, f"{mensaje}\n\n")
+    historial.see(tk.END)
+    historial.config(state="disabled")
