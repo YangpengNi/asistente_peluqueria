@@ -78,3 +78,21 @@ def escribir_chat(autor, mensaje, etiqueta):
 ##Recibir la pregunta
 def enviar_pregunta(event=None):
     pregunta = entrada.get().strip()
+    if not pregunta:
+        messagebox.showwarning(
+            "Pregunta vacía",
+            "Escribe una pregunta antes de pulsar Enviar.",
+        )
+        return
+
+    escribir_chat("Tú", pregunta, "usuario")
+    entrada.delete(0, tk.END)
+
+    boton_enviar.config(state="disabled")
+    estado.config(text="Consultando a Gemini...")
+    hilo = threading.Thread(
+        target=procesar_consulta,
+        args=(pregunta,),
+        daemon=True,
+    )
+    hilo.start()
