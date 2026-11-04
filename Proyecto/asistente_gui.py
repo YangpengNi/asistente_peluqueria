@@ -15,7 +15,7 @@ CARPETA_PROYECTO = Path(__file__).resolve().parent
 load_dotenv(CARPETA_PROYECTO / ".env")
 
 API_KEY = os.getenv("GEMINI_API_KEY")
-MODELO = "gemini-3.8-flash"
+MODELO = "gemini-3.5-flash-lite"
 
 # Creamos el cliente de Gemini solamente si se encontró la clave.
 cliente = genai.Client(api_key=API_KEY) if API_KEY else None
@@ -55,15 +55,17 @@ def consultar_gemini(pregunta):
     {pregunta}
     """
 
-    respuesta = cliente.models.generate_content(
+    # Interactions es la API actual de Gemini y evita depender del endpoint
+    # antiguo generate_content, que está devolviendo errores 503.
+    respuesta = cliente.interactions.create(
         model=MODELO,
-        contents=prompt,
+        input=prompt,
     )
 
-    if not respuesta.text:
+    if not respuesta.output_text:
         raise RuntimeError("Gemini no devolvió una respuesta de texto")
 
-    return respuesta.text.strip()
+    return respuesta.output_text.strip()
 
 # Escribimos los mensajes en el historial del chat.
 def escribir_chat(autor, mensaje, etiqueta):
