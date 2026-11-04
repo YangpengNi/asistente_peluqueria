@@ -56,3 +56,8 @@ def consultar_gemini(pregunta):
     PREGUNTA:
     {pregunta}
     """
+
+    respuesta = cliente.models.generate_content(
+        model=MODELO,
+        contents=prompt,
+    )
