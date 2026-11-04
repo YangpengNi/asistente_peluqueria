@@ -96,3 +96,12 @@ def enviar_pregunta(event=None):
         daemon=True,
     )
     hilo.start()
+
+##Implementación de la consulta
+def procesar_consulta(pregunta):
+    try:
+        respuesta = consultar_gemini(pregunta)
+        ventana.after(0, finalizar_consulta, respuesta, False)
+    except Exception as error:
+        mensaje = f"No se pudo obtener una respuesta: {error}"
+        ventana.after(0, finalizar_consulta, mensaje, True)
